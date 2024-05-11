@@ -1,3 +1,4 @@
+"use client";
 import { MoonIcon, SunIcon } from "@radix-ui/react-icons"
 import { Button } from "./ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu"
