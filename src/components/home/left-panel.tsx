@@ -2,10 +2,10 @@ import { ListFilter, LogOut, MessageSquareDiff, Search, User } from "lucide-reac
 import ThemeSwitch from "../theme-switch";
 import { Input } from "../ui/input";
 import Conversation from "./conversation";
+import { conversations } from "@/dummy-data/db";
 
 
 const LeftPanel = () => {
-    const conversations = [];
     return (
         <div className="w-1/4 border-purple-900 border-r-2">
             <div className="sticky top-0 bg-left-panel z-10">
