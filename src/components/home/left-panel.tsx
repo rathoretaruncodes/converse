@@ -8,15 +8,15 @@ import { conversations } from "@/dummy-data/db";
 const LeftPanel = () => {
     return (
         <div className="w-1/4 border-gray-600 border-r">
-            <div className="sticky bg-gray-900 top-0 z-10">
+            <div className="sticky top-0 z-10">
                 {/* Header */}
                 <div>
-                    <div className="flex justify-between items-center bg-gray-800 p-2">
-                        <User size={24} />
-                        <div className="flex items-center gap-1">
+                    <div className="flex justify-between items-center bg-gray-800 p-5">
+                        <User size={22} />
+                        <div className="flex items-center gap-5">
                             {/* TODO: This line will be replace with <UserListDialog/> */}
-                            <MessageSquareDiff size={20} />
-                            <ThemeSwitch />
+                            <MessageSquareDiff size={22} />
+                            {/* <ThemeSwitch /> */}
                             <LogOut size={20} className="cursor-pointer" />
                         </div>
                     </div>
