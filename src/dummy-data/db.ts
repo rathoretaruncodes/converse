@@ -3,33 +3,33 @@ export const conversations = [
 		_id: "1",
 		admin: "user1",
 		groupImage: null,
-		groupName: "Group A",
+		groupName: "Hype GC",
 		participants: ["user1", "user2", "user3"],
 		_creationTime: 1638232272, // Unix timestamp for 2021-11-30 12:04:32 UTC
 		lastMessage: {
 			_id: "1",
 			messageType: "text",
-			content: "Hello everyone!",
+			content: "Make some type safe API's for me!",
 			sender: "user1",
 		},
 		sender: "user1",
-		isOnline: true,
+		isOnline: false,
 	},
 	{
 		_id: "2",
 		admin: null,
 		groupImage: "https://avatars.githubusercontent.com/u/75279146?v=4",
-		groupName: null,
+		groupName: "Waveform",
 		participants: ["user4", "user5"],
 		_creationTime: 1638235872, // Unix timestamp for 2021-11-30 13:04:32 UTC
 		lastMessage: {
 			_id: "2",
 			messageType: "text",
-			content: "Hey there!",
+			content: "Anyone not busy?!",
 			sender: "user2",
 		},
 		sender: "user4",
-		isOnline: true,
+		isOnline: false,
 	},
 	{
 		_id: "3",
@@ -45,7 +45,7 @@ export const conversations = [
 			sender: "user6",
 		},
 		sender: "user6",
-		isOnline: false,
+		isOnline: true,
 	},
 	{
 		_id: "4",
