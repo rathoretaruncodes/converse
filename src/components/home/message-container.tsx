@@ -1,4 +1,5 @@
 import { messages } from "@/dummy-data/db";
+import ChatBubble from "./chat-bubble";
 
 
 const MessageContainer = () => {
@@ -9,7 +10,7 @@ const MessageContainer = () => {
                     <div key={msg._id}>
                         <ChatBubble />
                     </div>
-                )}
+                ))}
             </div>
         </div>
     )
