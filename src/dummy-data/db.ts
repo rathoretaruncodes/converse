@@ -41,7 +41,7 @@ export const conversations = [
 		lastMessage: {
 			_id: "3",
 			messageType: "image",
-			content: "image_url.jpg",
+			content: "Image",
 			sender: "user6",
 		},
 		sender: "user6",
@@ -58,7 +58,7 @@ export const conversations = [
 		lastMessage: {
 			_id: "4",
 			messageType: "video",
-			content: "video_url.mp4",
+			content: "Video",
 			sender: "user9",
 		},
 		sender: "user9",
