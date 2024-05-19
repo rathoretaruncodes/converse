@@ -4,19 +4,22 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import ChatPlaceholder from "./chat-placeholder";
 import MessageContainer from "./message-container";
 import MessageInput from "./message-input";
+import GroupMembers from "./group-members-dialog";
 
 const RightPanel = () => {
-    const selectedConversation = null;
+    const selectedConversation = true;
     if(!selectedConversation) 
         return <ChatPlaceholder />
     
-    const conversationsName = "John Doe";
+    const conversationsName = "Sam Manek Shaw";
+    const isGroup = true;
+
     return (
         <div className="w-3/4 flex flex-col">
-            <div className="w-full sticky top-0 z-50">
+            <div className="sticky top-0 z-10">
                 {/* Header */}
-                <div>
-                    <div className="flex justify-between items-center bg-gray-800 p-5">
+                <div className="flex justify-between bg-gray-800">
+                    <div className="flex justify-between items-center p-3">
                         <div className="flex items-center gap-5">
                             <Avatar>
                                 <AvatarImage src={"/placeholder.png"} className="object-cover" />
@@ -26,6 +29,7 @@ const RightPanel = () => {
                             </Avatar>
                             <div className="flex flex-col">
                                 <p>{conversationsName}</p>
+                                {isGroup && <GroupMembers />}
                             </div>
                         </div>
                     </div>
