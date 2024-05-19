@@ -10,8 +10,7 @@ const MessageInput = () => {
         <div className="bg-gray-800 p-2 flex gap-4 items-center">
             <div className="relative flex gap-2 ml-2">
                 {/* Emoji picker will go here */}
-                <Laugh className="text-gray-400" />
-                <Plus className="text-gray-400" />
+                <Laugh className="text-gray-300" />
             </div>
             <Plus />
             <form className="w-full flex gap-3">
@@ -19,7 +18,7 @@ const MessageInput = () => {
                     <Input
                             type="text"
                             placeholder="Type your messaage"
-                            className="py-2 text-sm w-full rounded-lg shadow-sm bg-gray-500 focus-visible:ring-transparent"
+                            className="py-2 text-sm w-full rounded-lg shadow-sm bg-gray-700 focus-visible:ring-transparent"
                             value={msgText}
                             onChange={(e) => setMsgText(e.target.value)}
                     />

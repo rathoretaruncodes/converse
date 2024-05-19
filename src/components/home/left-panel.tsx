@@ -12,7 +12,7 @@ const LeftPanel = () => {
                 {/* Header */}
                 <div>
                     <div className="flex justify-between items-center bg-gray-800 p-5">
-                        <User size={22} />
+                        <User size={24} />
                         <div className="flex items-center gap-5">
                             {/* TODO: This line will be replace with <UserListDialog/> */}
                             <MessageSquareDiff size={22} />
