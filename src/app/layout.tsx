@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Raleway } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/providers/theme-provider";
+import ConvexClientProvider from "@/providers/convex-client-provider";
 
 const font = Raleway({ subsets: ["latin"] });
 
@@ -19,7 +20,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={font.className}>
       <ThemeProvider attribute='class' defaultTheme='system' enableSystem disableTransitionOnChange>
-	      {children}
+      <ConvexClientProvider>
+        {children}
+      </ConvexClientProvider>
       </ThemeProvider>
       </body>
     </html>
