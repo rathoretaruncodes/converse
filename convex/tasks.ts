@@ -25,8 +25,8 @@ export const completeTask = mutation({
     args: {
         id: v.id("tasks")
     },
-    handler: async (cts, args) => {
-        await cts.db.patch(args.id, { completed: true})
+    handler: async (ctx, args) => {
+        await ctx.db.patch(args.id, { completed: true})
     }
 })
 
