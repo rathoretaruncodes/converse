@@ -19,7 +19,7 @@ const LeftPanel = () => {
                             {/* TODO: This line will be replace with <UserListDialog/> */}
                             <MessageSquareDiff size={22} />
                             {/* <ThemeSwitch /> */}
-                            <LogOut size={20} className="cursor-pointer" />
+                            {/* <LogOut size={20} className="cursor-pointer" /> */}
                         </div>
                     </div>
                     
