@@ -30,7 +30,19 @@ http.route({
 						name: `${result.data.first_name ?? "Guest"} ${result.data.last_name ?? ""}`,
 						image: result.data.image_url,
 					});
-					break;
+				break;
+
+				case "session.created":
+					await ctx.runMutation(internal.users.setUserOnline, {
+						tokenIdentifier: `${process.env.CLERK_APP_DOMAIN} | ${result.data.user_id}`,
+					});
+				break;
+
+				case "session.ended":
+					await ctx.runMutation(internal.users.setUserOffline, {
+						tokenIdentifier: `${process.env.CLERK_APP_DOMAIN} | ${result.data.user_id}`,
+					});
+				break;
 			}
 
 			return new Response(null, {
