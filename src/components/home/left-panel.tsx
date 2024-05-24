@@ -1,5 +1,5 @@
 "use client";
-import { ListFilter, LogOut, MessageSquareDiff, Search, User } from "lucide-react";
+import { ListFilter, MessageSquareDiff, Search } from "lucide-react";
 import ThemeSwitch from "../theme-switch";
 import { Input } from "../ui/input";
 import Conversation from "./conversation";
@@ -22,7 +22,7 @@ const LeftPanel = () => {
                         </SignedIn>
 
                         <SignedOut>
-                            <SignInButton />
+                            <SignInButton mode="modal" />
                         </SignedOut>
 
                         <div className="flex items-center gap-5">

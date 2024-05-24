@@ -19,6 +19,27 @@ export const createUser = internalMutation({
     },
 });
 
+export const updateUser = internalMutation({
+    args: {
+        tokenIdentifier: v.string(),
+        image: v.string()
+    },
+    handler: async (ctx, args) => {
+        const user = await ctx.db
+        .query("users")
+        .withIndex("by_tokenIdentifier", q => q.eq("tokenIdentifier", args.tokenIdentifier))
+        .unique();
+
+        if(!user) {
+            throw new ConvexError("No user with this token found.");
+        }
+
+        await ctx.db.patch(user._id, {
+            image: args.image,
+        })
+    }
+})
+
 export const setUserOnline = internalMutation({
     args: {
         tokenIdentifier: v.string()
