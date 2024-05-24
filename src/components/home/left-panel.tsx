@@ -5,6 +5,7 @@ import { Input } from "../ui/input";
 import Conversation from "./conversation";
 import { conversations } from "@/dummy-data/db";
 import { SignInButton, SignOutButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+import UserListDialog from "./user-list-dialog";
 
 
 const LeftPanel = () => {
@@ -26,8 +27,8 @@ const LeftPanel = () => {
                         </SignedOut>
 
                         <div className="flex items-center gap-5">
-                            {/* TODO: This line will be replace with <UserListDialog/> */}
-                            <MessageSquareDiff size={22} />
+                            {/* <MessageSquareDiff size={22} /> */}
+                            <UserListDialog />
                             {/* <ThemeSwitch /> */}
                             {/* <LogOut size={20} className="cursor-pointer" /> */}
                         </div>
