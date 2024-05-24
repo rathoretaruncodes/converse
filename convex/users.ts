@@ -15,6 +15,6 @@ export const createUser = internalMutation({
             name: args.name,
             image: args.image,
             isOnline: true,
-        })
-    }
+        });
+    },
 });
