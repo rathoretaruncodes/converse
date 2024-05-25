@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog";
-import { ImageIcon, MessageSquareDiff } from "lucide-react";
+import { ImageIcon, SquarePen } from "lucide-react";
 import Image from "next/image";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
@@ -20,7 +20,7 @@ const UserListDialog = () => {
     return (
         <Dialog>
             <DialogTrigger>
-                <MessageSquareDiff size={22} />
+                <SquarePen size={22} />
             </DialogTrigger>
             <DialogContent>
                 <DialogHeader>

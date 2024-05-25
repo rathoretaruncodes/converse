@@ -1,5 +1,5 @@
 "use client";
-import { ListFilter, MessageSquareDiff, Search } from "lucide-react";
+import { ListFilter, Search } from "lucide-react";
 import ThemeSwitch from "../theme-switch";
 import { Input } from "../ui/input";
 import Conversation from "./conversation";
@@ -14,7 +14,7 @@ const LeftPanel = () => {
             <div className="sticky top-0 z-10">
                 {/* Header */}
                 <div>
-                    <div className="flex justify-between items-center bg-gray-800 p-5">
+                    <div className="flex justify-between items-center bg-gray-800 h-16 px-4">
                         {/* <User size={24} /> */}
                         <UserButton />
 
@@ -31,6 +31,7 @@ const LeftPanel = () => {
                             <UserListDialog />
                             {/* <ThemeSwitch /> */}
                             {/* <LogOut size={20} className="cursor-pointer" /> */}
+                            <ListFilter className="cursor-pointer" />
                         </div>
                     </div>
                     
@@ -38,9 +39,9 @@ const LeftPanel = () => {
                         {/* Search */}
                         <div className="relative h-10 mx-2 flex-1">
                             <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-500 z-10" size={15} />
-                            <Input type="text" placeholder="Search or Start a new chat" className="pl-7 py-2 text-sm w-full rounded shadow-sm bg-gray-primary focus-visible:ring-transparent" />
+                            <Input type="text" placeholder="Search or start a new chat" className="pl-7 py-2 text-sm w-full rounded shadow-sm bg-gray-primary focus-visible:ring-transparent" />
                         </div>
-                        <ListFilter className="cursor-pointer" />
+                        
                     </div>
                 </div>
                 {/* Chat */}

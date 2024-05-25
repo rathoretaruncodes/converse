@@ -19,7 +19,7 @@ const RightPanel = () => {
             <div className="sticky top-0 z-10">
                 {/* Header */}
                 <div className="flex justify-between bg-gray-800">
-                    <div className="flex justify-between items-center p-3">
+                    <div className="flex justify-between items-center h-16 px-4">
                         <div className="flex items-center gap-5">
                             <Avatar>
                                 <AvatarImage src={"/placeholder.png"} className="object-cover" />
