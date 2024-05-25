@@ -9,4 +9,12 @@ export default defineSchema({
         tokenIdentifier: v.string(),
         isOnline: v.boolean(),
     }).index("by_tokenIdentifier", ["tokenIdentifier"]),
+
+    conversations: defineTable({
+        participants: v.array(v.id("users")),
+        isGroup: v.boolean(),
+        groupName: v.string(),
+        groupImage: v.optional(v.string()),
+        admin: v.id("users"),
+    })
 });
