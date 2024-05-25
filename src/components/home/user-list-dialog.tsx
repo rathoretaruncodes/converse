@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog";
 import { ImageIcon, SquarePen } from "lucide-react";
 import Image from "next/image";
@@ -10,12 +10,21 @@ import { Id } from "../../../convex/_generated/dataModel";
 
 const UserListDialog = () => {
 
-    const [renderedImage, setRenderedImage] = useState("");
     const [selectedUsers, setSelectedUsers] = useState<Id<"users">[]>([]);
     const [groupName, setGroupName] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const [selectedImage, setSelectedImage] = useState<File | null>(null);
+    const [renderedImage, setRenderedImage] = useState("");
     const imgRef = useRef<HTMLInputElement>(null);
+
+    useEffect(() => {
+        if(!selectedImage) {
+            return setRenderedImage("");
+        }
+        const reader = new FileReader();
+        reader.onload = e => setRenderedImage(e.target?.result as string);
+        reader.readAsDataURL(selectedImage);
+    }, [selectedImage]);
 
     return (
         <Dialog>
@@ -37,7 +46,6 @@ const UserListDialog = () => {
                             <Image src={renderedImage} fill alt="user image" className="rounded-full object-cover" />
                         </div>
                     )}
-                    {/* TODO: Input file */}
                     <input type="file" accept="image/*" hidden ref={imgRef} onChange={e => setSelectedImage(e.target.files![0])} />
 
                     {selectedUsers.length > 1 && (
