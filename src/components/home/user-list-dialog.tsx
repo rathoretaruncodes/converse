@@ -34,10 +34,12 @@ const UserListDialog = () => {
                 </DialogDescription>
                     {renderedImage && (
                         <div className="w-16 h-16 relative mx-auto">
-                            <Image src={renderedImage} fill alt="user image" className="rounded-full objecg-cover" />
+                            <Image src={renderedImage} fill alt="user image" className="rounded-full object-cover" />
                         </div>
                     )}
                     {/* TODO: Input file */}
+                    <input type="file" accept="image/*" hidden ref={imgRef} onChange={e => setSelectedImage(e.target.files![0])} />
+
                     {selectedUsers.length > 1 && (
                         <>
                             <Input
@@ -45,7 +47,7 @@ const UserListDialog = () => {
                                 value={groupName}
                                 onChange={e => setGroupName(e.target.value)}
                             />
-                            <Button className="flex gap-2">
+                            <Button className="flex gap-2" onClick={() => imgRef.current?.click()}>
                                 <ImageIcon size={20} />
                                     Group Image
                             </Button>
@@ -56,7 +58,7 @@ const UserListDialog = () => {
                             <div
                                 key={user._id}
                                 className={`flex gap-3 items-center p-2 rounded cursor-pointer active:scale-95 transition-all ease-in-out duration-300
-                                ${selectedUsers.includes(user._id) ? "bg-green-500" : ""}`}
+                                ${selectedUsers.includes(user._id) ? "bg-purple-800" : ""}`}
                                 onClick={() => {
                                     if(selectedUsers.includes(user._id)) {
                                         setSelectedUsers(selectedUsers.filter((id) => id !== user._id));
@@ -67,7 +69,7 @@ const UserListDialog = () => {
                             >
                                 <Avatar className="overflow-visible">
                                     {user.isOnline && (
-                                        <div className="absolute top-0 right-0 w-2.5 h-2.5 bg-green-500 rounded-full border-2 border-foreground" />
+                                        <div className="absolute top-0 right-0 w-2.5 h-2.5 bg-green-500 rounded-full" />
                                     )}
 
                                     <AvatarImage src={user.image} className="rounded-full object-cover" />
