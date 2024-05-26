@@ -7,6 +7,9 @@ import { Button } from "../ui/button";
 import { users } from "@/dummy-data/db";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Id } from "../../../convex/_generated/dataModel";
+import { createConversation } from "../../../convex/conversations";
+import { useMutation, useQuery } from "convex/react";
+import { api } from "../../../convex/_generated/api";
 
 const UserListDialog = () => {
 
@@ -16,6 +19,30 @@ const UserListDialog = () => {
     const [selectedImage, setSelectedImage] = useState<File | null>(null);
     const [renderedImage, setRenderedImage] = useState("");
     const imgRef = useRef<HTMLInputElement>(null);
+
+    const createConversation = useMutation(api.conversations.createConversation);
+    const me = useQuery(api.users.getMe);
+    
+
+    const handlerCreateConversation = async () => {
+        if(selectedUsers.length === 0) 
+            return;
+        setIsLoading(true);
+        try {
+            const isGroup = selectedUsers.length > 1;
+            let conversationId;
+            if(!isGroup)  {
+                conversationId = await createConversation({
+                    participants: [...selectedUsers,me?._id!],
+                    isGroup: false,
+                });
+            } else {
+
+            }
+        } catch(error) {
+            console.error(error);
+        }
+    }
 
     useEffect(() => {
         if(!selectedImage) {
@@ -99,7 +126,9 @@ const UserListDialog = () => {
 
                     <div className="flex justify-between">
                         <Button variant={"outline"}>Cancel</Button>
-                        <Button disabled={selectedUsers.length === 0 || (selectedUsers.length >1 && !groupName || isLoading)}>
+                        <Button 
+                            onClick={handlerCreateConversation}
+                            disabled={selectedUsers.length === 0 || (selectedUsers.length >1 && !groupName || isLoading)}>
                             {/* spinner */}
                             {isLoading ? (
                                 <div className="w-5 h-5 border-t-2 border-b-2 rounded-full animate-spin" />
