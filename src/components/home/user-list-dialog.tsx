@@ -4,10 +4,8 @@ import { ImageIcon, SquarePen } from "lucide-react";
 import Image from "next/image";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { users } from "@/dummy-data/db";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Id } from "../../../convex/_generated/dataModel";
-import { createConversation } from "../../../convex/conversations";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "../../../convex/_generated/api";
 
@@ -22,7 +20,8 @@ const UserListDialog = () => {
 
     const createConversation = useMutation(api.conversations.createConversation);
     const me = useQuery(api.users.getMe);
-    
+    // get users in realtime from the backend
+    const users = useQuery(api.users.getUsers);
 
     const handlerCreateConversation = async () => {
         if(selectedUsers.length === 0) 
