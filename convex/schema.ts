@@ -13,8 +13,8 @@ export default defineSchema({
     conversations: defineTable({
         participants: v.array(v.id("users")),
         isGroup: v.boolean(),
-        groupName: v.string(),
+        groupName: v.optional(v.string()),
         groupImage: v.optional(v.string()),
-        admin: v.id("users"),
+        admin: v.optional(v.id("users")),
     })
 });

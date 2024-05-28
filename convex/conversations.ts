@@ -6,15 +6,14 @@ export const createConversation = mutation({
     args: {
         participants: v.array(v.id("users")),
         isGroup: v.boolean(),
-        groupName: v.string(),
+        groupName: v.optional(v.string()),
         groupImage: v.optional(v.id("_storage")),
-        admin: v.id("users"),
+        admin: v.optional(v.id("users")),
     },
     handler: async(ctx, args) => {
         const identity = await ctx.auth.getUserIdentity();
-        if(!identity) {
+        if(!identity)
             throw new ConvexError("Unauthorized");
-        }
 
         const existingConversation = await ctx.db
         .query("conversations")
