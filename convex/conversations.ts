@@ -66,15 +66,34 @@ export const getMyConversations = query({
 
         const conversationsWithDetails = await Promise.all(
             myConversations.map(async (conversation) => {
+
+                let userDetails = {};
+                if(!conversation.isGroup) {
+                    const otherUserId = conversation.participants.find(id => id !== user._id);
+                    const userProfile = await ctx.db
+                    .query("users")
+                    .filter(q => q.eq(q.field("_id"), otherUserId))
+                    .take(1) ;
+
+                    userDetails = userProfile[0];
+                }
+
                 const lastMessage = await ctx.db
                 .query("messages")
                 .filter((q) => q.eq(q.field("conversation"), conversation._id))
                 .order("desc")
                 .take(1)
+
+                // return should be in this particular order, otherwise _id field will be overwritten
+                return {
+                    ...userDetails,
+                    ...conversation,
+                    lastMessage: lastMessage[0] || null,
+                }
             })
         )
 
-        return myConversations;
+        return conversationsWithDetails;
     }
 })
 
