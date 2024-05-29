@@ -63,6 +63,17 @@ export const getMyConversations = query({
         const myConversations = conversations.filter((conversation) => {
             return conversation.participants.includes(user._id);
         });
+
+        const conversationsWithDetails = await Promise.all(
+            myConversations.map(async (conversation) => {
+                const lastMessage = await ctx.db
+                .query("messages")
+                .filter((q) => q.eq(q.field("conversation"), conversation._id))
+                .order("desc")
+                .take(1)
+            })
+        )
+
         return myConversations;
     }
 })
