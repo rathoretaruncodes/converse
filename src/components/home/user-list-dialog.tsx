@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog";
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog";
 import { ImageIcon, SquarePen } from "lucide-react";
 import Image from "next/image";
 import { Input } from "../ui/input";
@@ -17,13 +17,14 @@ const UserListDialog = () => {
     const [selectedImage, setSelectedImage] = useState<File | null>(null);
     const [renderedImage, setRenderedImage] = useState("");
     const imgRef = useRef<HTMLInputElement>(null);
+    const dialogCloseRef = useRef<HTMLButtonElement>(null);
 
     const createConversation = useMutation(api.conversations.createConversation);
     const me = useQuery(api.users.getMe);
     // get users in realtime from the backend
     const users = useQuery(api.users.getUsers);
 
-    const handlerCreateConversation = async () => {
+    const handleCreateConversation = async () => {
         if(selectedUsers.length === 0) 
             return;
         setIsLoading(true);
@@ -32,14 +33,20 @@ const UserListDialog = () => {
             let conversationId;
             if(!isGroup)  {
                 conversationId = await createConversation({
-                    participants: [...selectedUsers,me?._id!],
+                    participants: [...selectedUsers, me?._id!],
                     isGroup: false,
                 });
             } else {
-
+                
             }
+            dialogCloseRef.current?.click();
+            setSelectedUsers([]);
+            setGroupName("");
+            setSelectedImage(null);
         } catch(error) {
             console.error(error);
+        } finally {
+            setIsLoading(false);
         }
     }
 
@@ -59,7 +66,7 @@ const UserListDialog = () => {
             </DialogTrigger>
             <DialogContent>
                 <DialogHeader>
-                    {/* TODO: <DialogClose /> will be here */}
+                    <DialogClose ref={dialogCloseRef} />
                     <DialogTitle> 
                         Contacts
                     </DialogTitle>
@@ -126,7 +133,7 @@ const UserListDialog = () => {
                     <div className="flex justify-between">
                         <Button variant={"outline"}>Cancel</Button>
                         <Button 
-                            onClick={handlerCreateConversation}
+                            onClick={handleCreateConversation}
                             disabled={selectedUsers.length === 0 || (selectedUsers.length >1 && !groupName || isLoading)}>
                             {/* spinner */}
                             {isLoading ? (
