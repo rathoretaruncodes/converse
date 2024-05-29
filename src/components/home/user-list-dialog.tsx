@@ -8,6 +8,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Id } from "../../../convex/_generated/dataModel";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "../../../convex/_generated/api";
+import toast from "react-hot-toast";
 
 const UserListDialog = () => {
 
@@ -61,6 +62,7 @@ const UserListDialog = () => {
             setSelectedImage(null);
             // TODO: Update a global state called "selectedConversations". Using conversationId
         } catch(error) {
+            toast.error("Failed to create conversation");
             console.error(error);
         } finally {
             setIsLoading(false);
