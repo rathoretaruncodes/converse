@@ -28,7 +28,7 @@ export const createConversation = mutation({
         }
         let groupImage;
         if(args.groupImage) {
-        // TODO:Upload image later
+            groupImage = (await ctx.storage.getUrl(args.groupImage)) as string;
         }
 
         // Creating 1 on 1 conversations

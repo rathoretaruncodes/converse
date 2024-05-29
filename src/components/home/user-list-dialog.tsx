@@ -20,6 +20,7 @@ const UserListDialog = () => {
     const dialogCloseRef = useRef<HTMLButtonElement>(null);
 
     const createConversation = useMutation(api.conversations.createConversation);
+    const generateUploadUrl = useMutation(api.conversations.generateUploadUrl);
     const me = useQuery(api.users.getMe);
     // get users in realtime from the backend
     const users = useQuery(api.users.getUsers);
@@ -37,12 +38,28 @@ const UserListDialog = () => {
                     isGroup: false,
                 });
             } else {
-                
+                const postUrl = await generateUploadUrl();
+
+                const result = await fetch(postUrl, {
+                    method: "POST",
+                    headers: {"Content-Type": selectedImage?.type!},
+                    body: selectedImage,
+                })
+
+                const {storageId} = await result.json();
+                await createConversation({
+                    participants:[...selectedUsers, me?._id!],
+                    isGroup: true,
+                    admin: me?._id!,
+                    groupName,
+                    groupImage: storageId,
+                })
             }
             dialogCloseRef.current?.click();
             setSelectedUsers([]);
             setGroupName("");
             setSelectedImage(null);
+            // TODO: Update a global state called "selectedConversations". Using conversationId
         } catch(error) {
             console.error(error);
         } finally {
