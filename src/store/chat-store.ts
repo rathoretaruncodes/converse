@@ -8,6 +8,7 @@ export type Conversation = {
     isGroup: boolean;
     name?: string;
     groupImage?: string;
+    groupName?: string;
     admin?: Id<"users">;
     isOnline?: boolean;
     lastMessage?: {

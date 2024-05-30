@@ -5,14 +5,15 @@ import ChatPlaceholder from "./chat-placeholder";
 import MessageContainer from "./message-container";
 import MessageInput from "./message-input";
 import GroupMembers from "./group-members-dialog";
+import { useConversationStore } from "@/store/chat-store";
 
 const RightPanel = () => {
-    const selectedConversation = true;
+    const { selectedConversation, setSelectedConversation } = useConversationStore();
     if(!selectedConversation) 
         return <ChatPlaceholder />
     
-    const conversationsName = "Sam Manek Shaw";
-    const isGroup = true;
+    const conversationName = selectedConversation.groupName || selectedConversation.name;
+    const conversationImage = selectedConversation.groupImage || selectedConversation.image;
 
     return (
         <div className="w-3/4 flex flex-col">
@@ -22,14 +23,14 @@ const RightPanel = () => {
                     <div className="flex justify-between items-center h-16 px-4">
                         <div className="flex items-center gap-5">
                             <Avatar>
-                                <AvatarImage src={"/placeholder.png"} className="object-cover" />
+                                <AvatarImage src={conversationImage || "/placeholder.png"} className="object-cover" />
                                 <AvatarFallback>
                                 <div className="animate-pulse w-full rounded-full" />
                                 </AvatarFallback>
                             </Avatar>
                             <div className="flex flex-col">
-                                <p>{conversationsName}</p>
-                                {isGroup && <GroupMembers />}
+                                <p>{conversationName}</p>
+                                {selectedConversation.isGroup && <GroupMembers />}
                             </div>
                         </div>
                     </div>
@@ -38,7 +39,8 @@ const RightPanel = () => {
                         <a href="/video-call" target="_blank">
                             <Video size={23} />
                         </a>
-                        <X size={16} className="cursor-pointer" />
+                        <X size={16} className="cursor-pointer" 
+                            onClick={() => setSelectedConversation(null)} />
                     </div>
                 </div>
             </div>
