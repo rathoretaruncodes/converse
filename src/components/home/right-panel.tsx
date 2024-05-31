@@ -30,7 +30,7 @@ const RightPanel = () => {
                             </Avatar>
                             <div className="flex flex-col">
                                 <p>{conversationName}</p>
-                                {selectedConversation.isGroup && <GroupMembers />}
+                                {selectedConversation.isGroup && <GroupMembers selectedConversation={selectedConversation} />}
                             </div>
                         </div>
                     </div>
