@@ -6,6 +6,8 @@ import { useMutation, useQuery } from "convex/react";
 import { api } from "../../../convex/_generated/api";
 import { useConversationStore } from "@/store/chat-store";
 import toast from "react-hot-toast";
+import useComponentVisible from "@/hooks/useComponentVisible";
+import EmojiPicker, { Theme } from "emoji-picker-react";
 
 
 const MessageInput = () => {
@@ -14,6 +16,8 @@ const MessageInput = () => {
     const sendTextMsg = useMutation(api.messages.sendTextMessage);
     const me = useQuery(api.users.getMe);
     const { selectedConversation } = useConversationStore();
+
+    const {ref, isComponentVisible, setIsComponentVisible} = useComponentVisible(false);
 
     const handleSendTextMsg = async (e:React.FormEvent) => {
         e.preventDefault();
@@ -35,7 +39,19 @@ const MessageInput = () => {
         <div className="bg-gray-800 p-2 flex gap-4 items-center">
             <div className="relative flex gap-2 ml-2">
                 {/* Emoji picker will go here */}
+                <div ref={ref} onClick={() => setIsComponentVisible(true)}>
+                    {isComponentVisible && (
+                        <EmojiPicker 
+                        theme={Theme.DARK}
+                        onEmojiClick={(emojiObject) => {
+                            setMsgText(prev => prev + emojiObject.emoji);
+                        }}
+                        style={{position: "absolute", bottom: "1.3rem", left: "1rem", zIndex: 50}}
+                        />
+                    )}
                 <Laugh className="text-gray-300" />
+                </div>
+                
             </div>
             <Plus />
             <form onSubmit={handleSendTextMsg} className="w-full flex gap-3">
