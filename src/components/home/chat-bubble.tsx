@@ -1,5 +1,6 @@
 import { MessageSeenSvg } from "@/lib/svgs";
 import { IMessage, useConversationStore } from "@/store/chat-store";
+import ChatBubbleAvatar from "./chat-bubble-avatar";
 
 
 type ChatBubbleProps = {
@@ -23,7 +24,12 @@ const ChatBubble = ({ me, message }: ChatBubbleProps) => {
     if (!fromMe) {
         return (
             <>
-                <div className="flex gap-1 w-2/3">
+                <div className="flex w-2/3">
+                    <ChatBubbleAvatar
+                        isGroup={isGroup}
+                        isMember={isMember}
+                        message={message}
+                    />
                     <div className={`flex flex-col z-20 max-w-fit px-2 pt-1 rounded-md shadow-md relative ${bgClass}`}>
                         <OtherMessageIndicator />
                         <TextMessage message={message} />
@@ -57,7 +63,7 @@ export default ChatBubble;
 
 const MessageTime = ({ time, fromMe }: { time: string; fromMe: boolean }) => {
     return (
-        <p className="text-[10px] mt-2 self-end flex gap-1 items-center">
+        <p className="text-[10px] mt-2 mb-0.5 self-end flex gap-1 items-center">
             {time} {fromMe && <MessageSeenSvg />}
         </p>
     );
