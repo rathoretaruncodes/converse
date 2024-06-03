@@ -62,16 +62,27 @@ export const getMessages = query({
         .withIndex("by_conversation", q => q.eq("conversation", args.conversation))
         .collect();
 
-        const messagesWithSender = await Promise.all(
-            messages.map(async (message) => {
-                const sender = await ctx.db
-                .query("users")
-                .filter(q => q.eq(q.field("_id"), message.sender))
-                .first();
+        const userProfileCache = new Map();
 
-                return {...message, sender};
+        const messagesWithSender = await Promise.all(
+            messages.map( async(message) => {
+                let sender;
+                //check if sender profile is in cache
+                if (userProfileCache.has(message.sender)) {
+                    sender = userProfileCache.get(message.sender);
+                } else {
+                    //fetch sender profile from the database
+                    sender = await ctx.db
+                    .query("users")
+                    .filter(q => q.eq(q.field("_id"), message.sender))
+                    .first();
+
+                    //cache the sender profile
+                    userProfileCache.set(message.sender, sender);
+                }
+                return { ...message, sender };
             })
-        )
+        );
         return messagesWithSender;
-    }
-})
+    },
+});
