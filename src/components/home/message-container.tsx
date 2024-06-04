@@ -1,4 +1,3 @@
-import { messages } from "@/dummy-data/db";
 import ChatBubble from "./chat-bubble";
 import { useQuery } from "convex/react";
 import { api } from "../../../convex/_generated/api";
@@ -22,6 +21,7 @@ const MessageContainer = () => {
                         <ChatBubble
                             message={msg}
                             me={me}
+                            previousMessage={idx > 0 ? messages[idx - 1] : undefined}
                         />
                     </div>
                 ))}
