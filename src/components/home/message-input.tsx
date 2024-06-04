@@ -1,4 +1,4 @@
-import { Laugh, Mic, Plus, Send } from "lucide-react";
+import { Laugh, Mic, Send } from "lucide-react";
 import { useState } from "react";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
@@ -8,6 +8,7 @@ import { useConversationStore } from "@/store/chat-store";
 import toast from "react-hot-toast";
 import useComponentVisible from "@/hooks/useComponentVisible";
 import EmojiPicker, { Theme } from "emoji-picker-react";
+import MediaDropdown from "./media-dropdown";
 
 
 const MessageInput = () => {
@@ -50,10 +51,9 @@ const MessageInput = () => {
                         />
                     )}
                 <Laugh className="text-gray-300" />
-                </div>
-                
+                </div>  
             </div>
-            <Plus />
+            <MediaDropdown />
             <form onSubmit={handleSendTextMsg} className="w-full flex gap-3">
                 <div className="flex-1">
                     <Input
