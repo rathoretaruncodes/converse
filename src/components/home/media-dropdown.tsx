@@ -59,7 +59,7 @@ const MediaDropdown = () => {
                         <ImageIcon size={18} className="mr-1" />
                         Photo
                     </DropdownMenuItem>
-                    <DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => videoInput.current!.click()}>
                         <Video size={20} className="mr-1" />
                         Video
                     </DropdownMenuItem>
