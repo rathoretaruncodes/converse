@@ -5,6 +5,10 @@ import { Dialog, DialogContent, DialogDescription } from "../ui/dialog";
 import Image from "next/image";
 import { Button } from "../ui/button";
 import ReactPlayer from "react-player";
+import toast from "react-hot-toast";
+import { useMutation, useQuery } from "convex/react";
+import { api } from "../../../convex/_generated/api";
+import { useConversationStore } from "@/store/chat-store";
 
 const MediaDropdown = () => {
     const imageInput = useRef<HTMLInputElement>(null);
@@ -13,6 +17,40 @@ const MediaDropdown = () => {
     const [selectedVideo, setSelectedVideo] = useState<File | null>(null);
 
     const [isLoading, setIsLoading] = useState(false);
+
+    const generateUploadUrl = useMutation(api.conversations.generateUploadUrl);
+    const sendImage = useMutation(api.messages.sendImage);
+
+    const me = useQuery(api.users.getMe);
+
+    const { selectedConversation } = useConversationStore();
+
+    const handleSendImage = async () => {
+        try {
+            //step 1: get short lived url
+            const postUrl = await generateUploadUrl();
+            //step 2: Post the file to the url
+            const result = await fetch(postUrl, {
+                method: 'POST',
+                headers: { "Content-Type": selectedImage!.type},
+                body: selectedImage
+            })
+
+            const { storageId } = await result.json();
+            //step 3: Save the newly allocated storage Id to the database
+            await sendImage({
+                conversation: selectedConversation!._id,
+                imgId: storageId,
+                sender: me!._id
+            })
+
+            setSelectedImage(null);
+        } catch(error) {
+            toast.error("Failed to send the image");
+        } finally {
+            setIsLoading(false);
+        }
+    }
 
     return (
         <>
@@ -38,6 +76,7 @@ const MediaDropdown = () => {
                     onClose={() => setSelectedImage(null)}
                     selectedImage={selectedImage}
                     isLoading={isLoading}
+                    handleSendImage={handleSendImage}
                 />
             )}
 
@@ -76,9 +115,10 @@ type MediaImageDialogProps = {
     onClose: () => void;
     selectedImage: File;
     isLoading: boolean;
+    handleSendImage: () => void;
 };
 
-const MediaImageDialog = ({isOpen, onClose, selectedImage, isLoading}: MediaImageDialogProps) => {
+const MediaImageDialog = ({isOpen, onClose, selectedImage, isLoading, handleSendImage}: MediaImageDialogProps) => {
 
     const [renderedImage, setRenderedImage] = useState<string | null>(null);
 
@@ -102,7 +142,9 @@ const MediaImageDialog = ({isOpen, onClose, selectedImage, isLoading}: MediaImag
                 <DialogContent>
                     <DialogDescription className="flex flex-col gap-10 justify-center items-center">
                         {renderedImage && <Image src={renderedImage} width={300} height={300} alt="selected image" />}
-                        <Button className="w-full" disabled={isLoading}>
+                        <Button className="w-full" disabled={isLoading}
+                            onClick={handleSendImage}
+                        >
                             {isLoading ? "Sending..." : "Send"}
                         </Button>
                     </DialogDescription>

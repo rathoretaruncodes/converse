@@ -86,3 +86,26 @@ export const getMessages = query({
         return messagesWithSender;
     },
 });
+
+export const sendImage = mutation({
+    args: {
+        imgId: v.id("_storage"),
+        sender: v.id("users"),
+        conversation: v.id("conversations")
+    },
+    handler: async (ctx, args) => {
+        const identity = await ctx.auth.getUserIdentity();
+        if(!identity) {
+            throw new ConvexError("Unauthorized");
+        }
+
+        const content = (await ctx.storage.getUrl(args.imgId)) as string;
+
+        await ctx.db.insert("messages", {
+            content: content,
+            sender: args.sender,
+            messageType: "image",
+            conversation: args.conversation,
+        });
+    },
+});
