@@ -3,6 +3,8 @@ import { IMessage, useConversationStore } from "@/store/chat-store";
 import ChatBubbleAvatar from "./chat-bubble-avatar";
 import DateIndicator from "./date-indicator";
 import Image from "next/image";
+import { useState } from "react";
+import { Dialog, DialogContent, DialogDescription } from "../ui/dialog";
 
 
 type ChatBubbleProps = {
@@ -24,6 +26,8 @@ const ChatBubble = ({ me, message, previousMessage }: ChatBubbleProps) => {
     const fromMe = message.sender._id === me._id;
     const bgClass = fromMe ? "bg-purple-800": "bg-gray-800";
 
+    const [open, setOpen] = useState(false);
+
     if (!fromMe) {
         return (
             <>
@@ -36,7 +40,14 @@ const ChatBubble = ({ me, message, previousMessage }: ChatBubbleProps) => {
                     <div className={`flex flex-col z-20 max-w-fit px-2 pt-1 rounded-md shadow-md relative ${bgClass}`}>
                         <OtherMessageIndicator />
                         {message.messageType === "text" && <TextMessage message={message} />}
-                        {message.messageType === "image" && <ImageMessage message={message} />}
+                        {message.messageType === "image" && (
+                            <ImageMessage message={message} handleClick = {() => setOpen(true)} />
+                        )}
+                        {open && <ImageDialog
+                            src={message.content}
+                            open={open}
+                            onClose = {() => setOpen(false)}
+                        />}
                         <MessageTime 
                             time={time}
                             fromMe={fromMe}
@@ -54,7 +65,14 @@ const ChatBubble = ({ me, message, previousMessage }: ChatBubbleProps) => {
                 <div className={`flex z-20 max-w-fit px-2 pt-1 rounded-md shadow-md ml-auto relative ${bgClass}`}>
                     <SelfMessageIndicator />
                     {message.messageType === "text" && <TextMessage message={message} />}
-                    {message.messageType === "image" && <ImageMessage message={message} />}
+                    {message.messageType === "image" && ( 
+                        <ImageMessage message={message} handleClick = {() => setOpen(true)}/>
+                    )}
+                    {open && <ImageDialog
+                        src={message.content}
+                        open={open}
+                        onClose = {() => setOpen(false)}
+                    />}
                     <MessageTime 
                         time={time}
                         fromMe={fromMe}
@@ -67,7 +85,7 @@ const ChatBubble = ({ me, message, previousMessage }: ChatBubbleProps) => {
 
 export default ChatBubble;
 
-const ImageMessage = ({ message }: { message: IMessage; }) => {
+const ImageMessage = ({ message, handleClick }: { message: IMessage; handleClick: () => void }) => {
     return (
         <div className="w-[250px] h-[250px] m-2 relative">
             <Image 
@@ -75,11 +93,29 @@ const ImageMessage = ({ message }: { message: IMessage; }) => {
                 fill
                 className="cursor-pointer object-cover rounded"
                 alt="image"
-                
+                onClick={handleClick}
             />
         </div>
     )
 }
+
+const ImageDialog = ({ src, onClose, open}: { open: boolean; src: string; onClose: () => void}) => {
+    return (
+        <Dialog
+            open={open}
+            onOpenChange={(isOpen) => {
+                if (!isOpen) 
+                    onClose();
+            }}
+        >
+            <DialogContent className="min-w-[750px]">
+                <DialogDescription className="relative h-[450px] flex justify-center">
+                    <Image src={src} fill className="rounded-lg object-contain" alt="image" />
+                </DialogDescription>
+            </DialogContent>
+        </Dialog>
+    );
+};
 
 const MessageTime = ({ time, fromMe }: { time: string; fromMe: boolean }) => {
     return (
