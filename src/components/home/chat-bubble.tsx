@@ -2,6 +2,7 @@ import { MessageSeenSvg } from "@/lib/svgs";
 import { IMessage, useConversationStore } from "@/store/chat-store";
 import ChatBubbleAvatar from "./chat-bubble-avatar";
 import DateIndicator from "./date-indicator";
+import Image from "next/image";
 
 
 type ChatBubbleProps = {
@@ -34,7 +35,8 @@ const ChatBubble = ({ me, message, previousMessage }: ChatBubbleProps) => {
                     />
                     <div className={`flex flex-col z-20 max-w-fit px-2 pt-1 rounded-md shadow-md relative ${bgClass}`}>
                         <OtherMessageIndicator />
-                        <TextMessage message={message} />
+                        {message.messageType === "text" && <TextMessage message={message} />}
+                        {message.messageType === "image" && <ImageMessage message={message} />}
                         <MessageTime 
                             time={time}
                             fromMe={fromMe}
@@ -51,7 +53,8 @@ const ChatBubble = ({ me, message, previousMessage }: ChatBubbleProps) => {
             <div className="flex gap-1 w-2/3 ml-auto">
                 <div className={`flex z-20 max-w-fit px-2 pt-1 rounded-md shadow-md ml-auto relative ${bgClass}`}>
                     <SelfMessageIndicator />
-                    <TextMessage message={message} />
+                    {message.messageType === "text" && <TextMessage message={message} />}
+                    {message.messageType === "image" && <ImageMessage message={message} />}
                     <MessageTime 
                         time={time}
                         fromMe={fromMe}
@@ -63,6 +66,20 @@ const ChatBubble = ({ me, message, previousMessage }: ChatBubbleProps) => {
 }
 
 export default ChatBubble;
+
+const ImageMessage = ({ message }: { message: IMessage; }) => {
+    return (
+        <div className="w-[250px] h-[250px] m-2 relative">
+            <Image 
+                src={message.content}
+                fill
+                className="cursor-pointer object-cover rounded"
+                alt="image"
+                
+            />
+        </div>
+    )
+}
 
 const MessageTime = ({ time, fromMe }: { time: string; fromMe: boolean }) => {
     return (
