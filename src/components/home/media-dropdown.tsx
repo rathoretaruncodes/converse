@@ -9,7 +9,6 @@ import toast from "react-hot-toast";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "../../../convex/_generated/api";
 import { useConversationStore } from "@/store/chat-store";
-import { sendVideo } from "../../../convex/messages";
 
 const MediaDropdown = () => {
     const imageInput = useRef<HTMLInputElement>(null);

@@ -29,6 +29,19 @@ const ChatBubble = ({ me, message, previousMessage }: ChatBubbleProps) => {
 
     const [open, setOpen] = useState(false);
 
+    const renderMessageContent = () => {
+        switch (message.messageType) {
+            case "text": 
+                return <TextMessage message={message} />
+            case "image": 
+                return <ImageMessage message={message} handleClick={() => setOpen(true)} />
+            case "video":
+                return <VideoMessage message={message} />
+            default: 
+                return null;
+        }
+    }
+
     if (!fromMe) {
         return (
             <>
@@ -40,13 +53,7 @@ const ChatBubble = ({ me, message, previousMessage }: ChatBubbleProps) => {
                     />
                     <div className={`flex flex-col z-20 max-w-fit px-2 pt-1 rounded-md shadow-md relative ${bgClass}`}>
                         <OtherMessageIndicator />
-                        {message.messageType === "text" && <TextMessage message={message} />}
-                        {message.messageType === "image" && (
-                            <ImageMessage message={message} handleClick = {() => setOpen(true)} />
-                        )}
-                        {message.messageType === "video" && (
-                            <VideoMessage message={message} />
-                        )}
+                        {renderMessageContent()}
                         {open && <ImageDialog
                             src={message.content}
                             open={open}
@@ -68,13 +75,7 @@ const ChatBubble = ({ me, message, previousMessage }: ChatBubbleProps) => {
             <div className="flex gap-1 w-2/3 ml-auto">
                 <div className={`flex z-20 max-w-fit px-2 pt-1 rounded-md shadow-md ml-auto relative ${bgClass}`}>
                     <SelfMessageIndicator />
-                    {message.messageType === "text" && <TextMessage message={message} />}
-                    {message.messageType === "image" && ( 
-                        <ImageMessage message={message} handleClick = {() => setOpen(true)}/>
-                    )}
-                    {message.messageType === "video" && (
-                        <VideoMessage message={message} />
-                    )}
+                    {renderMessageContent()}
                     {open && <ImageDialog
                         src={message.content}
                         open={open}
