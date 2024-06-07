@@ -94,7 +94,7 @@ const ChatBubble = ({ me, message, previousMessage }: ChatBubbleProps) => {
 export default ChatBubble;
 
 const VideoMessage = ({ message }: { message: IMessage }) => {
-    return <ReactPlayer url={message.content} width="250px" height="250px" controls={true} />
+    return <ReactPlayer url={message.content} width="250px" height="250px" controls={true} light={true} />
 };
 
 const ImageMessage = ({ message, handleClick }: { message: IMessage; handleClick: () => void }) => {
