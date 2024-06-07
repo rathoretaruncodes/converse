@@ -5,6 +5,7 @@ import DateIndicator from "./date-indicator";
 import Image from "next/image";
 import { useState } from "react";
 import { Dialog, DialogContent, DialogDescription } from "../ui/dialog";
+import ReactPlayer from "react-player";
 
 
 type ChatBubbleProps = {
@@ -43,6 +44,9 @@ const ChatBubble = ({ me, message, previousMessage }: ChatBubbleProps) => {
                         {message.messageType === "image" && (
                             <ImageMessage message={message} handleClick = {() => setOpen(true)} />
                         )}
+                        {message.messageType === "video" && (
+                            <VideoMessage message={message} />
+                        )}
                         {open && <ImageDialog
                             src={message.content}
                             open={open}
@@ -68,6 +72,9 @@ const ChatBubble = ({ me, message, previousMessage }: ChatBubbleProps) => {
                     {message.messageType === "image" && ( 
                         <ImageMessage message={message} handleClick = {() => setOpen(true)}/>
                     )}
+                    {message.messageType === "video" && (
+                        <VideoMessage message={message} />
+                    )}
                     {open && <ImageDialog
                         src={message.content}
                         open={open}
@@ -84,6 +91,10 @@ const ChatBubble = ({ me, message, previousMessage }: ChatBubbleProps) => {
 }
 
 export default ChatBubble;
+
+const VideoMessage = ({ message }: { message: IMessage }) => {
+    return <ReactPlayer url={message.content} width="250px" height="250px" controls={true} />
+};
 
 const ImageMessage = ({ message, handleClick }: { message: IMessage; handleClick: () => void }) => {
     return (
