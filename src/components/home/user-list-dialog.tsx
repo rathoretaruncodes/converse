@@ -63,14 +63,14 @@ const UserListDialog = () => {
             setSelectedUsers([]);
             setGroupName("");
             setSelectedImage(null);
-            // TODO: Update a global state called "selectedConversations". Using conversationId
+            
             const conversationName = isGroup ? groupName : users?.find((user) => user._id === selectedUsers[0])?.name;
             setSelectedConversation({
                 _id: conversationId,
                 participants: selectedUsers,
                 isGroup,
                 image: isGroup ? renderedImage: users?.find((user) => user._id === selectedUsers[0])?.image,
-                admin: me?._id!,
+                name: conversationName
             });
         } catch(error) {
             toast.error("Failed to create conversation");
