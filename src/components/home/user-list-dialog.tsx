@@ -70,7 +70,8 @@ const UserListDialog = () => {
                 participants: selectedUsers,
                 isGroup,
                 image: isGroup ? renderedImage: users?.find((user) => user._id === selectedUsers[0])?.image,
-                name: conversationName
+                name: conversationName,
+                admin:me?._id!,
             });
         } catch(error) {
             toast.error("Failed to create conversation");
